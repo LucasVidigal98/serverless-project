@@ -13,3 +13,5 @@ jspm_packages
 .tool-versions
 
 .dynamodb
+
+.env
