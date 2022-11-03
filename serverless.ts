@@ -64,7 +64,31 @@ const serverlessConfiguration: AWS = {
           }
         }
       ]
-    } 
+    },
+    createTodo: {
+      handler: 'src/functions/createTodo.handler',
+      events: [
+        {
+          http: {
+            path:'createTodo/{user_id}',
+            method: 'post',
+            cors: true
+          }
+        }
+      ]
+    },
+    getTodo: {
+      handler: 'src/functions/getTodo.handler',
+      events: [
+        {
+          http: {
+            path:'getTodo/{user_id}',
+            method: 'get',
+            cors: true
+          }
+        }
+      ]
+    },
   },
   custom: {
     esbuild: {
@@ -93,6 +117,28 @@ const serverlessConfiguration: AWS = {
         Type: "AWS::DynamoDB::Table",
         Properties: {
           TableName: 'users_certificate',
+          ProvisionedThroughput: {
+            ReadCapacityUnits: 5,
+            WriteCapacityUnits: 5
+          },
+          AttributeDefinitions: [
+            {
+              AttributeName: 'id',
+              AttributeType: 'S'
+            }
+          ],
+          KeySchema: [
+            {
+              AttributeName: 'id',
+              KeyType: 'HASH'
+            }
+          ]
+        }
+      },
+      dbTodosUsers: {
+        Type: "AWS::DynamoDB::Table",
+        Properties: {
+          TableName: 'users_todos',
           ProvisionedThroughput: {
             ReadCapacityUnits: 5,
             WriteCapacityUnits: 5
